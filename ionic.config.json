@@ -1,0 +1,7 @@
+{
+  "name": "smartexpensive",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
