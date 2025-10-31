@@ -1,15 +1,125 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-grid>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">home</ion-title>
-    </ion-toolbar>
-  </ion-header>
+    <!-- opciones -->
+    <ion-row class="ion-align-items-center ion-justify-content-between">
+      <ion-col>
+        <ion-icon name="home-outline"></ion-icon>
+      </ion-col>
+      <ion-col size="auto">
+        <ion-icon name="settings-outline" class="px-2"></ion-icon>
+        <ion-icon name="scan"></ion-icon>
+      </ion-col>
+    </ion-row>
+
+    <!-- tarjeta con datos de los gastos -->
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size="auto">
+
+        <!--card principal-->
+        <div class="card">
+
+
+          <!-- titulo y iconos de compartir-->
+          <ion-row class="ion-align-items-center ion-justify-content-between ">
+            <ion-col size="auto" class="ion-align-items-center px-3">
+              <p class="text-secondary pt-2">Resumen mensual</p>
+            </ion-col>
+            <ion-col size="auto" class="ion-align-items-end px-3">
+              <ion-icon name="notifications"></ion-icon>
+              <ion-icon name="ellipsis-vertical"></ion-icon>
+            </ion-col>
+          </ion-row>
+
+          <!-- datos de los gastos -->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+
+              <!-- tarjeta con datos de los gastos y presupuesto-->
+              <div class="card-interior" style="width: 300px;height: 130px;">
+                <ion-row>
+                  <ion-col>
+                    <ul class="ion-text-center list-unstyled">
+                      <li class="ion-text-center text-secondary ">Total gastado</li>
+                      <li class="ion-text-center fs-2 ">200€</li>
+                      <li class="ion-text-center text-secondary ">Presupuesto</li>
+                      <li class="ion-text-center fs-2">1300€</li>
+                    </ul>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- datos de los ingresos y ahorros-->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+              <div class="card-interior px-2" style="width: 150px;height: 90px;">
+                <ion-row >
+                  <ion-col>
+                    <ul class="ion-text-center list-unstyled">
+                      <li class="ion-text-left text-secondary ">Total gastado</li>
+                      <li class="ion-text-left fs-3 ">200€</li>
+                      <li class="ion-text-left text-secondary ">Presupuesto</li>
+                    </ul>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-col>
+            <ion-col size="auto">
+              <div class="card-interior px-2" style="width: 150px;height: 90px;">
+                <ion-row>
+                  <ion-col>
+                    <ul class="ion-text-center list-unstyled">
+                      <li class="ion-text-left text-secondary ">Total gastado</li>
+                      <li class="ion-text-left fs-3 ">200€</li>
+                      <li class="ion-text-left text-secondary ">Presupuesto</li>
+                    </ul>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-col>
+          </ion-row>
+
+
+          <!--estadisticas-->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+              <div class="card-interior" style="width: 300px;height: 130px;">
+                <ion-row>
+                  <ion-col>
+                    <ul class="ion-text-center list-unstyled">
+                      <li class="ion-text-center text-secondary fs-8">estadisticas</li>
+                    </ul>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!--etiqueta del mes y categorias seleccionadas-->
+          <ion-row class="ion-align-items-center ion-justify-content-start">
+            <ion-col size="auto" class="px-2">
+              <div class="etiqueta" style="height: 40px">
+                <ion-icon name="calendar"></ion-icon>
+                <p class="pt-3 px-2">Octubre</p>
+              </div>
+            </ion-col>
+            <ion-col size="auto">
+              <div class="etiqueta" >
+              <ion-icon name="filter"></ion-icon>
+              <p class="pt-3 px-2">Todas las Cat.</p>
+              </div>
+            </ion-col>
+          </ion-row>
+
+
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 </ion-content>
 
 
