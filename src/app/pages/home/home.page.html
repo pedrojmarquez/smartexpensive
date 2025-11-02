@@ -4,11 +4,11 @@
     <!-- opciones -->
     <ion-row class="ion-align-items-center ion-justify-content-between">
       <ion-col>
-        <ion-icon name="home-outline"></ion-icon>
+        <ion-icon name="menu"></ion-icon>
       </ion-col>
       <ion-col size="auto">
-        <ion-icon name="settings-outline" class="px-2"></ion-icon>
         <ion-icon name="scan"></ion-icon>
+        <ion-icon name="notifications" class="px-2"></ion-icon>
       </ion-col>
     </ion-row>
 
@@ -26,8 +26,8 @@
               <p class="text-secondary pt-2">Resumen mensual</p>
             </ion-col>
             <ion-col size="auto" class="ion-align-items-end px-3">
-              <ion-icon name="notifications"></ion-icon>
-              <ion-icon name="ellipsis-vertical"></ion-icon>
+              <ion-icon name="download"></ion-icon>
+              <ion-icon name="share"></ion-icon>
             </ion-col>
           </ion-row>
 
@@ -115,6 +115,109 @@
 
 
         </div>
+
+
+
+        <!-- tarjeta de control de presupuestos-->
+        <div class="card mt-3">
+          <ion-row>
+            <ion-col>
+
+              <!--opciones de presupuestos-->
+              <ion-row>
+                <ion-col>
+                  <p class="ion-text-center text-secondary fs-8">Presupuestos</p>
+
+                </ion-col>
+                <ion-col>
+                  <div class="etiqueta">
+                    <p>Ajustar</p>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <!--lista de presupuestos-->
+              <ion-row class="ion-align-items-center ion-justify-content-center">
+                <ion-col size="auto">
+                  <ul class="ion-text-center list-unstyled">
+
+
+
+                    <li class="py-2">
+                      <div class="card-presupuesto">
+                        <ion-row class="ion-align-items-center ion-justify-content-center">
+
+                          <ion-col size="auto">
+                            <ion-icon class="mx-4 " name="home"></ion-icon>
+                          </ion-col>
+
+                          <ion-col class="ion-text-left " size="auto">
+                            <li>Comida</li>
+                            <li>200€</li>
+                          </ion-col>
+
+                          <ion-col class="mx-4 ">
+                            <li>BARRA DE %</li>
+                            <li> Quedan 200€</li>
+                          </ion-col>
+
+                        </ion-row>
+
+                      </div>
+                    </li>
+
+                    <!-- lista de los demas presupuestos -->
+                  </ul>
+                </ion-col>
+              </ion-row>
+
+
+            </ion-col>
+          </ion-row>
+        </div>
+
+        <!--transacciones recientes-->
+        <div class="card mt-3 " style="margin-bottom: 150px;">
+          <ion-row>
+            <ion-col>
+
+              <!--titulo-->
+              <p class="ion-text-center text-secondary fs-8">Transacciones recientes</p>
+
+              <!--lista de transacciones-->
+              <ion-row class="ion-align-items-center ion-justify-content-center">
+                <ion-col size="auto">
+                  <ul class="ion-text-center list-unstyled">
+                    <li>
+
+                      <div class="card-presupuesto">
+                        <ion-row class="ion-align-items-center ion-justify-content-center">
+                          <ion-col size="auto">
+                            <ion-icon name="home"></ion-icon>
+                          </ion-col>
+                          <ion-col>
+                            <li>Cena MC Donals</li>
+                            <li> Cena · Hoy</li>
+                          </ion-col>
+                          <ion-col>
+                            <li>50€</li>
+                            <li> Personal</li>
+                          </ion-col>
+                        </ion-row>
+
+                      </div>
+
+                      <!-- lista de las demas transacciones -->
+                    </li>
+                  </ul>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </div>
+
+
+
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -124,3 +227,5 @@
 
 
 <app-footer></app-footer>
+
+

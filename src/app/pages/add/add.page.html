@@ -1,16 +1,103 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>add</ion-title>
-  </ion-toolbar>
-</ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">add</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
+
+<ion-content class="ion-padding add-expense-content">
+
+  <!-- boton de back y titulo -->
+  <ion-row class="ion-align-items-center ion-justify-content-center" >
+    <div class=" etiqueta">
+      <ion-icon name="arrow-back" [routerLink]="'/home' " ></ion-icon>
+    </div>
+    <h1>Añadir gasto</h1>
+  </ion-row>
+
+  <!-- botones superiores (imagen / voz) -->
+  <div class="mode-buttons">
+    <button class="mode-btn" (click)="selectMode('image')" [class.active]="mode==='image'">
+      <ion-icon name="scan" size="large"></ion-icon>
+    </button>
+
+    <button class="mode-btn" (click)="selectMode('voice')" [class.active]="mode==='voice'">
+      <ion-icon name="mic-outline" size="large"></ion-icon>
+    </button>
+  </div>
+
+  <!-- CARD principal con la vista según modo -->
+  <div class="card add-card">
+    <!-- MODO MANUAL (default) -->
+    <div *ngIf="mode === 'manual'" class="manual-mode mb-5">
+      <p class="muted">Introduce importe</p>
+
+      <!-- pantalla importe: display -->
+      <div class="amount-display">
+        <span class="currency">€</span>
+        <span class="amount">{{ displayAmount || '0' }}</span>
+      </div>
+
+      <!-- teclado numérico personalizado -->
+      <div class="numpad">
+        <div class="row" *ngFor="let r of keypadRows">
+          <button class="key" *ngFor="let k of r" (click)="onKey(k)">{{ k }}</button>
+        </div>
+        <div class="row">
+          <button class="key function" (click)="clear()">C</button>
+          <button class="key" (click)="onKey('0')">0</button>
+          <button class="key function" (click)="backspace()">⌫</button>
+        </div>
+      </div>
+
+      <!-- form: categoría y fecha -->
+      <ion-item>
+        <ion-label position="stacked">Categoría</ion-label>
+        <ion-select [(ngModel)]="manual.category" placeholder="Selecciona categoría">
+          <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item lines="none">
+        <ion-label>Fecha</ion-label>
+        <ion-datetime display-format="DD MMM YYYY HH:mm" [(ngModel)]="manual.date"></ion-datetime>
+        <ion-button fill="clear" (click)="useNow()">Ahora</ion-button>
+      </ion-item>
+
+      <div class="actions">
+        <ion-button expand="block" color="primary" (click)="submitManual()">Guardar gasto</ion-button>
+      </div>
+    </div>
+
+    <!-- MODO IMAGE -->
+    <div *ngIf="mode === 'image'" class="image-mode">
+      <p class="muted">Sube foto del ticket</p>
+
+      <div class="image-actions">
+        <input type="file" accept="image/*" (change)="onImageSelected($event)" id="fileInput" hidden #fileInput>
+        <ion-button (click)="fileInput.click()">Seleccionar imagen</ion-button>
+        <ion-button (click)="captureImage()">Abrir cámara</ion-button>
+      </div>
+
+      <div *ngIf="selectedImage" class="preview">
+        <img [src]="selectedImage" alt="ticket" />
+        <ion-button expand="block" (click)="sendImageForProcessing()">Procesar con IA</ion-button>
+      </div>
+    </div>
+
+    <!-- MODO VOICE -->
+    <div *ngIf="mode === 'voice'" class="voice-mode">
+      <p class="muted">Di el gasto en voz alta (ej: "20 euros cena")</p>
+
+      <div class="voice-controls">
+        <ion-button [color]="recording ? 'danger' : 'medium'" (click)="toggleRecording()">
+          <ion-icon [name]="recording ? 'stop-circle' : 'mic'"></ion-icon>
+          {{ recording ? 'Detener' : 'Grabar' }}
+        </ion-button>
+      </div>
+
+      <div *ngIf="transcript">
+        <p class="muted">Transcripción:</p>
+        <p class="transcript">{{ transcript }}</p>
+        <ion-button expand="block" (click)="sendTranscriptForProcessing()">Procesar con IA</ion-button>
+      </div>
+    </div>
+  </div>
 </ion-content>
 
 
