@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import {
   IonBackButton,
   IonButton, IonButtons, IonCol,
-  IonContent, IonDatetime,
+  IonContent, IonDatetime, IonGrid,
   IonHeader,
-  IonIcon,
+  IonIcon, IonInput,
   IonItem,
   IonLabel, IonRow,
   IonSelect, IonSelectOption,
@@ -22,7 +22,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
   templateUrl: './add.page.html',
   styleUrls: ['./add.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, IonItem, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonButtons, IonBackButton, IonRow, IonCol, RouterLinkActive, RouterLink,]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, IonItem, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonButtons, IonBackButton, IonRow, IonCol, RouterLinkActive, RouterLink, IonGrid, IonInput,]
 })
 export class AddPage  {
 
@@ -30,10 +30,12 @@ export class AddPage  {
   mode: 'manual' | 'image' | 'voice' = 'manual';
 
   // manual
-  displayAmount = '';
-  manual = { amount: 0, category: null, date: new Date().toISOString() };
+  cantidad = '';
+  manual = { amount: 0, category: null, date: new Date().toISOString(), description: '' };
   categories = ['Comida', 'Transporte', 'Ocio', 'Hogar', 'Otros'];
-  keypadRows = [['1','2','3'], ['4','5','6'], ['7','8','9'], ['.']];
+  numeracion = [['1','2','3'], ['4','5','6'], ['7','8','9']];
+
+
 
   // image
   selectedImage: string | null = null;
@@ -57,18 +59,18 @@ export class AddPage  {
 
   // Numpad
   onKey(k: string) {
-    if (k === '.' && this.displayAmount.includes('.')) return;
-    if (k === '.' && this.displayAmount === '') this.displayAmount = '0.';
-    else this.displayAmount += k;
-    this.manual.amount = parseFloat(this.displayAmount || '0') || 0;
+    if (k === '.' && this.cantidad.includes('.')) return;
+    if (k === '.' && this.cantidad === '') this.cantidad = '0.';
+    else this.cantidad += k;
+    this.manual.amount = parseFloat(this.cantidad || '0') || 0;
   }
   clear() {
-    this.displayAmount = '';
+    this.cantidad = '';
     this.manual.amount = 0;
   }
   backspace() {
-    this.displayAmount = this.displayAmount.slice(0, -1);
-    this.manual.amount = parseFloat(this.displayAmount || '0') || 0;
+    this.cantidad = this.cantidad.slice(0, -1);
+    this.manual.amount = parseFloat(this.cantidad || '0') || 0;
   }
 
   useNow() {

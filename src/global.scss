@@ -77,6 +77,20 @@
   height: 40px;
 }
 
+.boton-redondo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(175, 243, 190, 0.3);
+  border-radius: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-left: 3px;
+  margin-right: 3px;
+  height: 30px;
+  width: 30px;
+}
+
 ion-content {
   background-color: #00ff00;
 }

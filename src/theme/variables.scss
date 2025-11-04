@@ -16,6 +16,17 @@
   /* Bordes, sombras, etc. */
   --border-color: #ddd;
   --shadow-color: rgba(0, 0, 0, 0.1);
+
+
+
+
+  //calendario
+  --ion-color-calendario: #aff3be;
+  --ion-color-calendario-rgb: 175,243,190;
+  --ion-color-calendario-contrast: #000000;
+  --ion-color-calendario-contrast-rgb: 0,0,0;
+  --ion-color-calendario-shade: #9ad6a7;
+  --ion-color-calendario-tint: #b7f4c5;
 }
 
 /* Modo oscuro */
@@ -24,4 +35,15 @@ body.dark {
   --text-color: #f1f1f1;
   --border-color: #333;
   --color-primary: #66bb6a;
+}
+
+
+
+.ion-color-calendario {
+  --ion-color-base: var(--ion-color-calendario);
+  --ion-color-base-rgb: var(--ion-color-calendario-rgb);
+  --ion-color-contrast: var(--ion-color-calendario-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-calendario-contrast-rgb);
+  --ion-color-shade: var(--ion-color-calendario-shade);
+  --ion-color-tint: var(--ion-color-calendario-tint);
 }

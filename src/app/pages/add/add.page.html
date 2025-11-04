@@ -1,68 +1,170 @@
+<ion-header class="ion-no-border ion-text-center ">
+  <ion-toolbar class="ion-no-border " >
+    <ion-row class="ion-align-items-center ion-justify-content-center">
 
+
+      <ion-col class="ion-text-left ion-justify-content-start">
+        <div class="boton-redondo px-2" >
+          <ion-icon name="arrow-back" [routerLink]="'/home' " ></ion-icon>
+        </div>
+      </ion-col>
+
+
+      <ion-col class="ion-text-center">
+        <ion-title class="ion-text-center " style="margin-left: 10px;">Añadir gasto</ion-title>
+      </ion-col>
+
+
+      <ion-col class="d-flex ion-justify-content-end px-3">
+        <div class="boton-redondo px-2" (click)="selectMode('image')" [class.active]="mode==='image'">
+          <ion-icon name="scan"></ion-icon>
+        </div>
+        <div class="boton-redondo px-2" (click)="selectMode('voice')" [class.active]="mode==='voice'">
+          <ion-icon name="mic-outline"></ion-icon>
+        </div>
+      </ion-col>
+
+
+    </ion-row>
+
+  </ion-toolbar>
+</ion-header>
 
 <ion-content class="ion-padding add-expense-content">
 
-  <!-- boton de back y titulo -->
-  <ion-row class="ion-align-items-center ion-justify-content-center" >
-    <div class=" etiqueta">
-      <ion-icon name="arrow-back" [routerLink]="'/home' " ></ion-icon>
-    </div>
-    <h1>Añadir gasto</h1>
-  </ion-row>
 
-  <!-- botones superiores (imagen / voz) -->
-  <div class="mode-buttons">
-    <button class="mode-btn" (click)="selectMode('image')" [class.active]="mode==='image'">
-      <ion-icon name="scan" size="large"></ion-icon>
-    </button>
 
-    <button class="mode-btn" (click)="selectMode('voice')" [class.active]="mode==='voice'">
-      <ion-icon name="mic-outline" size="large"></ion-icon>
-    </button>
-  </div>
 
-  <!-- CARD principal con la vista según modo -->
-  <div class="card add-card">
     <!-- MODO MANUAL (default) -->
-    <div *ngIf="mode === 'manual'" class="manual-mode mb-5">
-      <p class="muted">Introduce importe</p>
+    <div *ngIf="mode === 'manual'">
 
-      <!-- pantalla importe: display -->
-      <div class="amount-display">
-        <span class="currency">€</span>
-        <span class="amount">{{ displayAmount || '0' }}</span>
+      <!-- CARD principal con la vista según modo -->
+      <div class="card">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <p class="muted px-2">Introduce importe</p>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+              <div class="card-interior ion-text-start  px-3 cantidad" style="width: 320px; height: 40px;">
+                {{cantidad || '0.00' }}
+                <span class="currency">€</span>
+
+              </div>
+
+            </ion-col>
+          </ion-row>
+
+          <!--teclado numérico personalizado-->
+          <ion-row>
+            <ion-col>
+
+              <!--numeros-->
+              <ion-row class="ion-align-items-center ion-justify-content-center ion-display-flex">
+                <ion-col class="ion-text-center">
+                  <ion-row *ngFor="let row of numeracion; let i = index" >
+                    <ion-col *ngFor="let key of row; let j = index">
+                      <button class="key" (click)="onKey(key)">{{ key }}</button>
+                    </ion-col>
+                  </ion-row>
+
+                  <!--botones de C, 0 y borrar-->
+                  <ion-row >
+                    <ion-col >
+                      <button class="key" (click)="onKey('.')">.</button>
+                    </ion-col>
+                    <ion-col >
+                      <button class="key" (click)="onKey('0')">0</button>
+                    </ion-col>
+                    <ion-col >
+                      <button class="key" (click)="backspace()" style="padding-inline: 30px;padding-bottom: 5px;padding-top: 5px;">
+                        <ion-icon class="ion-text-center" name="backspace-outline"></ion-icon>
+                      </button>
+                    </ion-col>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+
+        </ion-grid>
       </div>
 
-      <!-- teclado numérico personalizado -->
-      <div class="numpad">
-        <div class="row" *ngFor="let r of keypadRows">
-          <button class="key" *ngFor="let k of r" (click)="onKey(k)">{{ k }}</button>
-        </div>
-        <div class="row">
-          <button class="key function" (click)="clear()">C</button>
-          <button class="key" (click)="onKey('0')">0</button>
-          <button class="key function" (click)="backspace()">⌫</button>
-        </div>
+      <!--detalles del gasto-->
+      <div class="card mt-3">
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <p class="muted px-2">Detalles del gasto</p>
+            </ion-col>
+          </ion-row>
+
+          <!--categoria-->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+              <ion-item class="card-interior">
+                <ion-label position="stacked">Categoría</ion-label>
+                <ion-select [(ngModel)]="manual.category" placeholder="Selecciona categoría">
+                  <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!--fecha-->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+              <ion-item class="card-interior">
+                <ion-label position="stacked">Fecha</ion-label>
+<!--                <ion-datetime display-format="DD MMM YYYY HH:mm" [(ngModel)]="manual.date"></ion-datetime>-->
+                <ion-button fill="clear" (click)="useNow()">Ahora</ion-button>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <!--descripcion-->
+          <ion-row class="ion-align-items-center ion-justify-content-center">
+            <ion-col size="auto">
+              <ion-item class="card-interior">
+                <ion-label position="stacked">Descripción</ion-label>
+                <ion-input [(ngModel)]="manual.description"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
       </div>
 
-      <!-- form: categoría y fecha -->
-      <ion-item>
-        <ion-label position="stacked">Categoría</ion-label>
-        <ion-select [(ngModel)]="manual.category" placeholder="Selecciona categoría">
-          <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>
-        </ion-select>
-      </ion-item>
+      <!--boton guardar gasto-->
+      <ion-row class="ion-align-items-center ion-justify-content-center " style="margin-bottom: 70px;">
+        <ion-col size="auto">
+          <ion-button expand="block" color="primary" (click)="submitManual()">Guardar gasto</ion-button>
+        </ion-col>
+      </ion-row>
 
-      <ion-item lines="none">
-        <ion-label>Fecha</ion-label>
-        <ion-datetime display-format="DD MMM YYYY HH:mm" [(ngModel)]="manual.date"></ion-datetime>
-        <ion-button fill="clear" (click)="useNow()">Ahora</ion-button>
-      </ion-item>
 
-      <div class="actions">
-        <ion-button expand="block" color="primary" (click)="submitManual()">Guardar gasto</ion-button>
-      </div>
+
     </div>
+
+    <!--      &lt;!&ndash; form: categoría y fecha &ndash;&gt;-->
+    <!--      <ion-item>-->
+    <!--        <ion-label position="stacked">Categoría</ion-label>-->
+    <!--        <ion-select [(ngModel)]="manual.category" placeholder="Selecciona categoría">-->
+    <!--          <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>-->
+    <!--        </ion-select>-->
+    <!--      </ion-item>-->
+
+    <!--      <ion-item lines="none">-->
+    <!--        <ion-label>Fecha</ion-label>-->
+    <!--        <ion-datetime display-format="DD MMM YYYY HH:mm" [(ngModel)]="manual.date"></ion-datetime>-->
+    <!--        <ion-button fill="clear" (click)="useNow()">Ahora</ion-button>-->
+    <!--      </ion-item>-->
+
+    <!--      <div class="actions">-->
+    <!--        <ion-button expand="block" color="primary" (click)="submitManual()">Guardar gasto</ion-button>-->
+    <!--      </div>-->
 
     <!-- MODO IMAGE -->
     <div *ngIf="mode === 'image'" class="image-mode">
@@ -97,7 +199,7 @@
         <ion-button expand="block" (click)="sendTranscriptForProcessing()">Procesar con IA</ion-button>
       </div>
     </div>
-  </div>
+
 </ion-content>
 
 
