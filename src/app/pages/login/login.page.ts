@@ -19,28 +19,8 @@ export class LoginPage {
   loginWithGoogle() {
     // Redirigir al backend de Spring Boot
     window.location.href = 'http://localhost:8080/oauth2/authorization/google';
-
   }
 
-  async fetchUser() {
-    try {
-      const response = await fetch('http://localhost:8080/api/me', {
-        credentials: 'include' // importante para que envíe cookies de sesión
-      });
 
-      if (!response.ok) {
-        throw new Error('No logueado');
-      }
-
-      const user = await response.json();
-      console.log('Usuario logueado:', user);
-
-      // Aquí puedes guardarlo en tu servicio de usuario para toda la app
-      // ejemplo: this.userService.setUser(user);
-
-    } catch (error) {
-      console.log('Usuario no logueado', error);
-    }
-  }
 
 }
