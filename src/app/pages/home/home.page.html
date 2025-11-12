@@ -6,21 +6,20 @@
     <!-- opciones -->
     <ion-row class="ion-align-items-center ion-justify-content-between">
       <ion-col>
-        <ion-icon name="menu"></ion-icon>
+        <ion-icon name="menu" style="font-size: 25px;"></ion-icon>
       </ion-col>
       <ion-col size="auto">
-        <ion-icon name="scan"></ion-icon>
-        <ion-icon name="notifications" class="px-2"></ion-icon>
+        <ion-icon name="scan" style="font-size: 20px;"></ion-icon>
+        <ion-icon name="notifications" class="px-2" style="font-size: 20px;"></ion-icon>
       </ion-col>
-
-      <button (click)="logout()">salir</button>
-      <button (click)="prueba()">prueba</button>
     </ion-row>
+
+
 
     <!-- tarjeta con datos de los gastos -->
     <ion-row class="ion-align-items-center ion-justify-content-center">
-      <ion-col size="auto">
 
+      <ion-col size="auto">
         <!--card principal-->
         <div class="card">
 
@@ -28,11 +27,13 @@
           <!-- titulo y iconos de compartir-->
           <ion-row class="ion-align-items-center ion-justify-content-between ">
             <ion-col size="auto" class="ion-align-items-center px-3">
-              <p class="text-secondary pt-2">Resumen mensual</p>
+
             </ion-col>
             <ion-col size="auto" class="ion-align-items-end px-3">
-              <ion-icon name="download"></ion-icon>
-              <ion-icon name="share"></ion-icon>
+              <span class="boton-redondo">
+                <i class="fa-regular fa-share-from-square fs-6"></i>
+              </span>
+
             </ion-col>
           </ion-row>
 
@@ -40,45 +41,44 @@
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="auto">
 
-              <!-- tarjeta con datos de los gastos y presupuesto-->
-              <div class="card-interior" style="width: 300px;height: 130px;">
-                <ion-row>
-                  <ion-col>
-                    <ul class="ion-text-center list-unstyled">
-                      <li class="ion-text-center text-secondary ">Total gastado</li>
-                      <li class="ion-text-center fs-2 ">200€</li>
-                      <li class="ion-text-center text-secondary ">Presupuesto</li>
-                      <li class="ion-text-center fs-2">1300€</li>
-                    </ul>
-                  </ion-col>
-                </ion-row>
-              </div>
+
+
+              <ion-row>
+                <ion-col>
+                  <ul class="ion-text-center list-unstyled">
+                    <li class="ion-text-center text-secondary fs-6">Total gastado</li>
+                    <li class="ion-text-center" style="font-size: 40px;">200€</li>
+                    <li class="ion-text-center text-secondary">+6.5% mes anterior</li>
+                  </ul>
+                </ion-col>
+              </ion-row>
+
             </ion-col>
           </ion-row>
 
-          <!-- datos de los ingresos y ahorros-->
+          <!-- datos de los ingresos, ahorros y promedio diario,nº transacciones-->
           <ion-row class="ion-align-items-center ion-justify-content-center">
             <ion-col size="auto">
-              <div class="card-interior px-2" style="width: 150px;height: 90px;">
+              <div class="card-interior px-2" >
                 <ion-row >
                   <ion-col>
                     <ul class="ion-text-center list-unstyled">
-                      <li class="ion-text-left text-secondary ">Total gastado</li>
-                      <li class="ion-text-left fs-3 ">200€</li>
-                      <li class="ion-text-left text-secondary ">Presupuesto</li>
+                      <li class="ion-text-left text-secondary ">Ingresos</li>
+                      <li class="ion-text-left ">200€</li>
+                      <li class="ion-text-left text-secondary ">+2.1% mes anterior</li>
                     </ul>
                   </ion-col>
                 </ion-row>
               </div>
             </ion-col>
             <ion-col size="auto">
-              <div class="card-interior px-2" style="width: 150px;height: 90px;">
+              <div class="card-interior px-2" >
                 <ion-row>
                   <ion-col>
                     <ul class="ion-text-center list-unstyled">
-                      <li class="ion-text-left text-secondary ">Total gastado</li>
-                      <li class="ion-text-left fs-3 ">200€</li>
-                      <li class="ion-text-left text-secondary ">Presupuesto</li>
+                      <li class="ion-text-left text-secondary ">Presupuesto Restante</li>
+                      <li class="ion-text-left">200€</li>
+                      <li class="ion-text-left text-secondary ">De 500.00€</li>
                     </ul>
                   </ion-col>
                 </ion-row>
@@ -86,15 +86,28 @@
             </ion-col>
           </ion-row>
 
-
-          <!--estadisticas-->
-          <ion-row class="ion-align-items-center ion-justify-content-center">
+          <ion-row class="ion-align-items-center ion-justify-content-center ">
             <ion-col size="auto">
-              <div class="card-interior" style="width: 300px;height: 130px;">
+              <div class="card-interior px-2" >
+                <ion-row >
+                  <ion-col>
+                    <ul class="ion-text-center list-unstyled">
+                      <li class="ion-text-left text-secondary ">Promedio diario</li>
+                      <li class="ion-text-left ">41.27€</li>
+                      <li class="ion-text-left text-secondary ">30 días</li>
+                    </ul>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ion-col>
+            <ion-col size="auto">
+              <div class="card-interior px-2" >
                 <ion-row>
                   <ion-col>
                     <ul class="ion-text-center list-unstyled">
-                      <li class="ion-text-center text-secondary fs-8">estadisticas</li>
+                      <li class="ion-text-left text-secondary ">Transacciones</li>
+                      <li class="ion-text-left ">14</li>
+                      <li class="ion-text-left text-secondary ">3 categorias</li>
                     </ul>
                   </ion-col>
                 </ion-row>
@@ -102,21 +115,17 @@
             </ion-col>
           </ion-row>
 
-          <!--etiqueta del mes y categorias seleccionadas-->
-          <ion-row class="ion-align-items-center ion-justify-content-start">
-            <ion-col size="auto" class="px-2">
-              <div class="etiqueta" style="height: 40px">
-                <ion-icon name="calendar"></ion-icon>
-                <p class="pt-3 px-2">Octubre</p>
+          <ion-row class="ion-align-items-center ion-justify-content-between ">
+            <ion-col size="auto" class="ion-align-items-center py-2">
+              <div class="etiqueta" style="height: 35px">
+                <ion-icon name="calendar-outline"></ion-icon>
+                <p class="pt-3 px-2">Octubre 2025</p>
               </div>
             </ion-col>
-            <ion-col size="auto">
-              <div class="etiqueta" >
-              <ion-icon name="filter"></ion-icon>
-              <p class="pt-3 px-2">Todas las Cat.</p>
-              </div>
-            </ion-col>
+
           </ion-row>
+
+
 
 
         </div>
@@ -187,36 +196,40 @@
             <ion-col>
 
               <!--titulo-->
-              <p class="ion-text-center text-secondary fs-8">Transacciones recientes</p>
-
+              <ion-row class="ion-align-items-center ion-justify-content-between">
+                <ion-col size="auto">
+                <p class="ion-text-left text-secondary fs-8 pt-2 mx-3">Transacciones recientes</p>
+                </ion-col>
+                <ion-col size="auto" class="ion-text-center">
+                  <span class="etiqueta" style="width: 80px; padding-right: 10px;">Ver todos</span>
+                </ion-col>
+              </ion-row>
               <!--lista de transacciones-->
               <ion-row class="ion-align-items-center ion-justify-content-center">
                 <ion-col size="auto">
                   <ul class="ion-text-center list-unstyled">
-                    <li>
-
-                      <div class="card-presupuesto">
-                        <ion-row class="ion-align-items-center ion-justify-content-center">
+                    <li *ngFor="let gasto of gastos let i = index">
+                      <div *ngIf="i < 4" class="card-presupuesto my-2"  >
+                        <ion-row class="ion-align-items-center ion-justify-content-center pt-1">
+                          <ion-col size="auto" class="mx-2">
+                            <ion-icon name="{{ gasto.categoria.icono }}" class="icono-gasto" [style.color]="gasto.categoria.colorHex"></ion-icon>
+                          </ion-col>
                           <ion-col size="auto">
-                            <ion-icon name="home"></ion-icon>
+                            <li class="ion-text-left">{{ gasto.descripcionGasto }}</li>
+                            <li class="text-secondary fs-8 ion-text-left">{{ gasto.categoria.nombre }} · {{ gasto.fechaGasto | date: 'dd/MM/yyyy' }}</li>
                           </ion-col>
                           <ion-col>
-                            <li>Cena MC Donals</li>
-                            <li> Cena · Hoy</li>
-                          </ion-col>
-                          <ion-col>
-                            <li>50€</li>
-                            <li> Personal</li>
+                            <li class="fs-6">{{ gasto.total | currency }}</li>
                           </ion-col>
                         </ion-row>
-
                       </div>
-
-                      <!-- lista de las demas transacciones -->
                     </li>
                   </ul>
                 </ion-col>
               </ion-row>
+
+
+
             </ion-col>
           </ion-row>
         </div>
