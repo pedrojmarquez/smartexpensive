@@ -5,7 +5,7 @@ import { IonicRouteStrategy, provideIonicAngular } from '@ionic/angular/standalo
 import { routes } from './app/app.routes';
 import { AppComponent } from './app/app.component';
 import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi} from "@angular/common/http";
-import {AuthInterceptor} from './app/interceptors/auth.interceptor';
+// import {AuthInterceptor} from './app/interceptors/auth.interceptor';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import { importProvidersFrom } from '@angular/core';
@@ -29,6 +29,6 @@ bootstrapApplication(AppComponent, {
     // 👇 Necesario para interceptores en apps standalone
     provideHttpClient(withInterceptorsFromDi()),
     // 👇 Registramos tu interceptor clásico
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 });

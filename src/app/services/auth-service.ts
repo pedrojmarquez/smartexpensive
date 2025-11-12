@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,10 @@ export class AuthService {
   private SESSION_KEY = 'sessionID';
   private ready: Promise<void>;
   private token: string | null = null;
+  private headers = new HttpHeaders();
+  apiComunUrl = 'http://localhost:8080';
 
-  constructor(private storage: Storage) {
+  constructor(private storage: Storage,private http: HttpClient) {
     this.ready = this.init();
   }
 
@@ -32,7 +35,6 @@ export class AuthService {
   async getSession() {
     await this.ensureReady();
     const token = await this._storage?.get(this.SESSION_KEY);
-    console.log('📦 Token leído del Storage:', token);
     return token;
   }
 
@@ -41,7 +43,62 @@ export class AuthService {
     await this._storage?.remove(this.SESSION_KEY);
   }
 
-  getToken(){
-    return this.token;
+  getApiBaseUrl(){
+    return this.apiComunUrl;
+  }
+
+  CreateAuthorizationHeader(headers: HttpHeaders){
+    const headerJson = {
+      'Content-type':'application/json',
+      Authorization: `Bearer ${this.token}`
+    };
+    this.headers = new HttpHeaders(headerJson);
+  }
+
+  get(url:any){
+    const headers = new HttpHeaders();
+    this.CreateAuthorizationHeader(headers);
+    return this.http.get<Object>(
+      url,
+      {
+        headers: this.headers
+      }
+    );
+  }
+
+  post(url:any, body:any){
+    const headers = new HttpHeaders();
+    this.CreateAuthorizationHeader(headers);
+    return this.http.post<Object>(
+      url,
+      body,
+      {
+        headers: this.headers
+      }
+    );
+  }
+
+  put(url:any, body:any){
+    const headers = new HttpHeaders();
+    this.CreateAuthorizationHeader(headers);
+    return this.http.put<Object>(
+      url,
+      body,
+      {
+        headers: this.headers
+      }
+    );
+  }
+
+  delete(url:any,responseType: 'json' ){
+    const headers = new HttpHeaders();
+    this.CreateAuthorizationHeader(headers);
+    return this.http.delete<Object>(
+      url,
+      {
+        headers: this.headers,
+        responseType: responseType as 'json'
+      }
+    );
   }
 }

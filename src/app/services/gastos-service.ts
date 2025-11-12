@@ -1,24 +1,21 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {HttpClient} from "@angular/common/http";
 import {AuthService} from "./auth-service";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsuarioService {
+export class GastosService {
+
   ruta: string;
 
   constructor(private http: HttpClient,private authService: AuthService) {
     this.ruta = this.authService.getApiBaseUrl();
   }
 
-
-
-  //petion con autenticacion
-  getUsuario(): Observable<any> {
-
-    return this.authService.get(this.ruta + '/api/usuario');
+  getGastos(): Observable<any> {
+    return this.authService.get(this.ruta + '/api/gastos/me');
   }
 
 }

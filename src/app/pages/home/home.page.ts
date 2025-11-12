@@ -16,6 +16,7 @@ import { FooterComponent } from "src/app/components/footer/footer.component";
 import {AuthService} from "../../services/auth-service";
 import {ActivatedRoute} from "@angular/router";
 import {UsuarioService} from "../../services/usuario-service";
+import {GastosService} from "../../services/gastos-service";
 
 @Component({
   selector: 'app-home',
@@ -28,11 +29,13 @@ export class HomePage implements OnInit {
 
   user: any = null;
   loading = true;
+  gastos: any = [];
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private gastosService: GastosService
   ) {}
 
   async ngOnInit() {
@@ -46,17 +49,21 @@ export class HomePage implements OnInit {
         window.history.replaceState({}, document.title, window.location.pathname);
       }
 
-      // 2️⃣ Recuperar el token guardado
-      const savedToken = await this.authService.getSession();
-      if (savedToken) {
-        console.log('Token guardado encontrado:', savedToken);
-
-      } else {
-        console.log('No hay token guardado.');
-      }
+      //Cargar los gastos
+      this.gastosService.getGastos().subscribe({
+        next: (response) => {
+          this.gastos = response;
+          console.log('Gastos cargados:', this.gastos);
+        },
+        error: (error) => {
+          console.log('Error al cargar los gastos:', error);
+        }
+      });
 
       this.loading = false;
     });
+
+
   }
   async logout() {
     await this.authService.clearSession();
@@ -64,32 +71,15 @@ export class HomePage implements OnInit {
     console.log('Sesión cerrada.');
   }
 
-  // ngOnInit() {
-  //   // this.fetchUser()
-  // }
 
-  // async fetchUser() {
-  //   try {
-  //     const response = await fetch('http://localhost:8080/api/me', {
-  //       credentials: 'include' // importante para que envíe cookies de sesión
-  //     });
-  //
-  //     if (!response.ok) {
-  //       throw new Error('No logueado');
-  //     }
-  //
-  //     const user = await response.json();
-  //     console.log('Usuario logueado:', user);
-  //
-  //     // Aquí puedes guardarlo en tu servicio de usuario para toda la app
-  //     // ejemplo: this.userService.setUser(user);
-  //
-  //   } catch (error) {
-  //     console.log('Usuario no logueado', error);
-  //   }
-  // }
+  async prueba() {
+    const token = await this.authService.getSession();
+    if (token) {
+      console.log('Token actual:', token);
+    } else {
+      console.log('No hay token guardado');
+    }
 
-  prueba() {
     this.usuarioService.getUsuario().subscribe({
       next: (response) => {
         this.user = response;
@@ -99,6 +89,7 @@ export class HomePage implements OnInit {
         console.log('Token expirado o inválido.');
          this.authService.clearSession();
       }
-    });
+    })
   }
+
 }
