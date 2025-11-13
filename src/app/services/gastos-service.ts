@@ -18,4 +18,12 @@ export class GastosService {
     return this.authService.get(this.ruta + '/api/gastos/me');
   }
 
+  saveGasto(gasto: any): Observable<any> {
+    return this.authService.post(this.ruta + '/api/gastos/save', gasto);
+  }
+
+  getCategorias(): Observable<any> {
+    return this.authService.get(this.ruta + '/api/gastos/categorias');
+  }
+
 }

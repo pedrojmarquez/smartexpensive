@@ -1,11 +1,11 @@
 <ion-header class="ion-no-border ion-text-center ">
-  <ion-toolbar class="ion-no-border " >
+  <ion-toolbar class="ion-no-border ">
     <ion-row class="ion-align-items-center ion-justify-content-center">
 
 
       <ion-col class="ion-text-left ion-justify-content-start">
-        <div class="boton-redondo px-2" >
-          <ion-icon name="arrow-back" [routerLink]="'/home' " ></ion-icon>
+        <div class="boton-redondo px-2">
+          <ion-icon name="arrow-back" [routerLink]="'/home' "></ion-icon>
         </div>
       </ion-col>
 
@@ -16,10 +16,10 @@
 
 
       <ion-col class="d-flex ion-justify-content-end px-3">
-        <div class="boton-redondo px-2" (click)="selectMode('image')" [class.active]="mode==='image'">
+        <div class="boton-redondo px-2" [class.active]="mode==='image'">
           <ion-icon name="scan"></ion-icon>
         </div>
-        <div class="boton-redondo px-2" (click)="selectMode('voice')" [class.active]="mode==='voice'">
+        <div class="boton-redondo px-2" [class.active]="mode==='voice'">
           <ion-icon name="mic-outline"></ion-icon>
         </div>
       </ion-col>
@@ -30,175 +30,210 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding add-expense-content">
+<ion-content [fullscreen]="true" class="ion-padding ">
+  <form [formGroup]="formularioGasto" (ngSubmit)="guardarGasto()">
+    <ion-grid>
+
+      <!-- CARD TECLADO-->
+      <ion-row class="ion-align-items-center ion-justify-content-center">
+        <ion-col size="auto">
+          <div class="card">
+            <ion-row>
+              <ion-col>
+                <p class="muted px-2 pt-2 fs-6">Introduce importe</p>
+              </ion-col>
+            </ion-row>
+
+            <ion-row class="ion-align-items-center ion-justify-content-center">
+              <ion-col size="auto">
+                <div class="card-interior ion-text-start   px-3 cantidad" style="width: 320px; height: 40px;">
+                  {{ cantidad || '0.00' }}
+                  <span class="currency">€</span>
+
+                </div>
+
+              </ion-col>
+            </ion-row>
+
+            <!--teclado numérico personalizado-->
+            <ion-row>
+              <ion-col>
+
+                <!--numeros-->
+                <ion-row class="ion-align-items-center ion-justify-content-center ion-display-flex">
+                  <ion-col class="ion-text-center">
+                    <ion-row *ngFor="let row of numeracion; let i = index">
+                      <ion-col *ngFor="let key of row; let j = index">
+                        <button class="key" (click)="onKey(key)">{{ key }}</button>
+                      </ion-col>
+                    </ion-row>
+
+                    <!--botones de C, 0 y borrar-->
+                    <ion-row>
+                      <ion-col>
+                        <button class="key" (click)="onKey('.')">.</button>
+                      </ion-col>
+                      <ion-col>
+                        <button class="key" (click)="onKey('0')">0</button>
+                      </ion-col>
+                      <ion-col>
+                        <button class="key" (click)="backspace()"
+                                style="padding-inline: 30px;padding-bottom: 5px;padding-top: 5px;">
+                          <ion-icon class="ion-text-center" name="backspace-outline"></ion-icon>
+                        </button>
+                      </ion-col>
+                    </ion-row>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!--fecha-->
+      <ion-row class="ion-align-items-center ion-justify-content-center my-4">
+        <ion-col size="auto">
+          <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+          <ion-modal [keepContentsMounted]="true">
+            <ng-template>
+              <ion-datetime
+                #datetime
+                formControlName="fechaGasto"
+                id="datetime"
+                presentation="date"
+                [showDefaultButtons]="true"
+                done-text="Aceptar"
+                cancel-text="Cancelar"
+
+                [formatOptions]="{
+                        date: {
+                          weekday: 'short',
+                          month: 'long',
+                          day: '2-digit',
+                        }
+                      }"
+              >
+                <ion-buttons slot="end">
+                  <ion-button class="text-secondary" (click)="datetime.cancel()">Cancelar</ion-button>
+                  <ion-button (click)="datetime.confirm()" style="color: #0f3d22">Aceptar</ion-button>
+                </ion-buttons>
+              </ion-datetime>
+            </ng-template>
+          </ion-modal>
+        </ion-col>
+      </ion-row>
 
 
+      <!-- SELECCION DE CATEGORIAS RAPIDAS-->
 
-
-    <!-- MODO MANUAL (default) -->
-    <div *ngIf="mode === 'manual'">
-
-      <!-- CARD principal con la vista según modo -->
-      <div class="card">
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <p class="muted px-2">Introduce importe</p>
-            </ion-col>
-          </ion-row>
-
-          <ion-row class="ion-align-items-center ion-justify-content-center">
-            <ion-col size="auto">
-              <div class="card-interior ion-text-start  px-3 cantidad" style="width: 320px; height: 40px;">
-                {{cantidad || '0.00' }}
-                <span class="currency">€</span>
-
-              </div>
-
-            </ion-col>
-          </ion-row>
-
-          <!--teclado numérico personalizado-->
-          <ion-row>
-            <ion-col>
-
-              <!--numeros-->
-              <ion-row class="ion-align-items-center ion-justify-content-center ion-display-flex">
-                <ion-col class="ion-text-center">
-                  <ion-row *ngFor="let row of numeracion; let i = index" >
-                    <ion-col *ngFor="let key of row; let j = index">
-                      <button class="key" (click)="onKey(key)">{{ key }}</button>
-                    </ion-col>
-                  </ion-row>
-
-                  <!--botones de C, 0 y borrar-->
-                  <ion-row >
-                    <ion-col >
-                      <button class="key" (click)="onKey('.')">.</button>
-                    </ion-col>
-                    <ion-col >
-                      <button class="key" (click)="onKey('0')">0</button>
-                    </ion-col>
-                    <ion-col >
-                      <button class="key" (click)="backspace()" style="padding-inline: 30px;padding-bottom: 5px;padding-top: 5px;">
-                        <ion-icon class="ion-text-center" name="backspace-outline"></ion-icon>
-                      </button>
-                    </ion-col>
-                  </ion-row>
+      <ion-grid *ngIf="!todas else todasCategorias">
+        <ion-row *ngIf="categoriasRapidas">
+          <ion-col *ngFor="let cat of categoriasRapidas let i = index" >
+            <div class="card-categoria text-center" [ngClass]="{ 'card-categoria-seleccionada': this.formularioGasto.get('idCategoria')?.value === this.categoriasRapidas[i].idCategoria }" (click)="seleccionarCategoria(this.categoriasRapidas[i])" [style.border-color]="categoriasRapidas[i]?.colorHex">
+              <ion-row class="ion-align-items-center ion-justify-content-center">
+                <ion-col size="auto">
+                  <ion-icon class="my-1" name="{{categoriasRapidas[i]?.icono}}" [style.color]="categoriasRapidas[i]?.colorHex" style="font-size: 24px;"></ion-icon>
+                  <p>{{categoriasRapidas[i]?.nombre}}</p>
                 </ion-col>
               </ion-row>
+            </div>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <span class="etiqueta" (click)="todas=true">Ver todas</span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ng-template #todasCategorias>
+        <ion-grid>
+          <ion-row *ngIf="categorias">
+            <ion-col *ngFor="let cat of categorias let i = index" >
+              <div class="card-categoria text-center" [ngClass]="{ 'card-categoria-seleccionada': this.formularioGasto.get('idCategoria')?.value === this.categorias[i].idCategoria }" (click)="seleccionarCategoria(this.categorias[i])" [style.border-color]="categorias[i]?.colorHex">
+                <ion-row class="ion-align-items-center ion-justify-content-center">
+                  <ion-col size="auto">
+                    <ion-icon class="my-1" name="{{categorias[i]?.icono}}" [style.color]="categorias[i]?.colorHex" style="font-size: 24px;"></ion-icon>
+                    <p>{{categorias[i]?.nombre}}</p>
+                  </ion-col>
+                </ion-row>
+              </div>
             </ion-col>
           </ion-row>
 
-        </ion-grid>
-      </div>
-
-      <!--detalles del gasto-->
-      <div class="card mt-3">
-        <ion-grid>
           <ion-row>
             <ion-col>
-              <p class="muted px-2">Detalles del gasto</p>
-            </ion-col>
-          </ion-row>
-
-          <!--categoria-->
-          <ion-row class="ion-align-items-center ion-justify-content-center">
-            <ion-col size="auto">
-              <ion-item class="card-interior">
-                <ion-label position="stacked">Categoría</ion-label>
-                <ion-select [(ngModel)]="manual.category" placeholder="Selecciona categoría">
-                  <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>
-                </ion-select>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-
-          <!--fecha-->
-          <ion-row class="ion-align-items-center ion-justify-content-center">
-            <ion-col size="auto">
-              <ion-item class="card-interior">
-                <ion-label position="stacked">Fecha</ion-label>
-<!--                <ion-datetime display-format="DD MMM YYYY HH:mm" [(ngModel)]="manual.date"></ion-datetime>-->
-                <ion-button fill="clear" (click)="useNow()">Ahora</ion-button>
-              </ion-item>
-            </ion-col>
-          </ion-row>
-
-          <!--descripcion-->
-          <ion-row class="ion-align-items-center ion-justify-content-center">
-            <ion-col size="auto">
-              <ion-item class="card-interior">
-                <ion-label position="stacked">Descripción</ion-label>
-                <ion-input [(ngModel)]="manual.description"></ion-input>
-              </ion-item>
+              <span class="etiqueta" (click)="todas=false">Ver solo rápidas</span>
             </ion-col>
           </ion-row>
         </ion-grid>
-      </div>
+      </ng-template>
 
-      <!--boton guardar gasto-->
-      <ion-row class="ion-align-items-center ion-justify-content-center " style="margin-bottom: 70px;">
+
+      <!--descripcion-->
+      <ion-row class="ion-align-items-center ion-justify-content-center my-4">
         <ion-col size="auto">
-          <ion-button expand="block" color="primary" (click)="submitManual()">Guardar gasto</ion-button>
+          <ion-item class="card-descripcion mx-2 mb-2 input-group" style="height: auto">
+            <ion-input label="Descripción" label-placement="floating" formControlName="descripcionGasto"></ion-input>
+          </ion-item>
         </ion-col>
       </ion-row>
 
 
 
+
+
+
+      <!--boton guardar gasto-->
+      <ion-row class="ion-align-items-center ion-justify-content-center " style="margin-bottom: 70px;">
+        <ion-col size="auto">
+          <ion-button class="btn-guardar" (click)="guardarGasto()">
+            <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+            Guardar gasto
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </form>
+
+
+  <!-- MODO IMAGE -->
+  <div *ngIf="mode === 'image'" class="image-mode">
+    <p class="muted">Sube foto del ticket</p>
+
+    <div class="image-actions">
+      <input type="file" accept="image/*" (change)="onImageSelected($event)" id="fileInput" hidden #fileInput>
+      <ion-button (click)="fileInput.click()">Seleccionar imagen</ion-button>
+      <ion-button (click)="captureImage()">Abrir cámara</ion-button>
     </div>
 
-    <!--      &lt;!&ndash; form: categoría y fecha &ndash;&gt;-->
-    <!--      <ion-item>-->
-    <!--        <ion-label position="stacked">Categoría</ion-label>-->
-    <!--        <ion-select [(ngModel)]="manual.category" placeholder="Selecciona categoría">-->
-    <!--          <ion-select-option *ngFor="let c of categories" [value]="c">{{ c }}</ion-select-option>-->
-    <!--        </ion-select>-->
-    <!--      </ion-item>-->
+    <div *ngIf="selectedImage" class="preview">
+      <img [src]="selectedImage" alt="ticket"/>
+      <ion-button expand="block" (click)="sendImageForProcessing()">Procesar con IA</ion-button>
+    </div>
+  </div>
 
-    <!--      <ion-item lines="none">-->
-    <!--        <ion-label>Fecha</ion-label>-->
-    <!--        <ion-datetime display-format="DD MMM YYYY HH:mm" [(ngModel)]="manual.date"></ion-datetime>-->
-    <!--        <ion-button fill="clear" (click)="useNow()">Ahora</ion-button>-->
-    <!--      </ion-item>-->
+  <!-- MODO VOICE -->
+  <div *ngIf="mode === 'voice'" class="voice-mode">
+    <p class="muted">Di el gasto en voz alta (ej: "20 euros cena")</p>
 
-    <!--      <div class="actions">-->
-    <!--        <ion-button expand="block" color="primary" (click)="submitManual()">Guardar gasto</ion-button>-->
-    <!--      </div>-->
-
-    <!-- MODO IMAGE -->
-    <div *ngIf="mode === 'image'" class="image-mode">
-      <p class="muted">Sube foto del ticket</p>
-
-      <div class="image-actions">
-        <input type="file" accept="image/*" (change)="onImageSelected($event)" id="fileInput" hidden #fileInput>
-        <ion-button (click)="fileInput.click()">Seleccionar imagen</ion-button>
-        <ion-button (click)="captureImage()">Abrir cámara</ion-button>
-      </div>
-
-      <div *ngIf="selectedImage" class="preview">
-        <img [src]="selectedImage" alt="ticket" />
-        <ion-button expand="block" (click)="sendImageForProcessing()">Procesar con IA</ion-button>
-      </div>
+    <div class="voice-controls">
+      <ion-button [color]="recording ? 'danger' : 'medium'" (click)="toggleRecording()">
+        <ion-icon [name]="recording ? 'stop-circle' : 'mic'"></ion-icon>
+        {{ recording ? 'Detener' : 'Grabar' }}
+      </ion-button>
     </div>
 
-    <!-- MODO VOICE -->
-    <div *ngIf="mode === 'voice'" class="voice-mode">
-      <p class="muted">Di el gasto en voz alta (ej: "20 euros cena")</p>
-
-      <div class="voice-controls">
-        <ion-button [color]="recording ? 'danger' : 'medium'" (click)="toggleRecording()">
-          <ion-icon [name]="recording ? 'stop-circle' : 'mic'"></ion-icon>
-          {{ recording ? 'Detener' : 'Grabar' }}
-        </ion-button>
-      </div>
-
-      <div *ngIf="transcript">
-        <p class="muted">Transcripción:</p>
-        <p class="transcript">{{ transcript }}</p>
-        <ion-button expand="block" (click)="sendTranscriptForProcessing()">Procesar con IA</ion-button>
-      </div>
+    <div *ngIf="transcript">
+      <p class="muted">Transcripción:</p>
+      <p class="transcript">{{ transcript }}</p>
+      <ion-button expand="block" (click)="sendTranscriptForProcessing()">Procesar con IA</ion-button>
     </div>
+  </div>
 
 </ion-content>
 

@@ -1,30 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {
   IonBackButton,
   IonButton, IonButtons, IonCol,
-  IonContent, IonDatetime, IonGrid,
+  IonContent, IonDatetime, IonDatetimeButton, IonGrid,
   IonHeader,
   IonIcon, IonInput,
   IonItem,
-  IonLabel, IonRow,
+  IonLabel, IonModal, IonPicker, IonPickerColumn, IonPickerColumnOption, IonRow,
   IonSelect, IonSelectOption,
   IonTitle,
   IonToolbar
 } from '@ionic/angular/standalone';
-import { FooterComponent } from "src/app/components/footer/footer.component";
-import {HttpClient} from "@angular/common/http";
+
 import {RouterLink, RouterLinkActive} from "@angular/router";
+import {GastosService} from "../../services/gastos-service";
 
 @Component({
   selector: 'app-add',
   templateUrl: './add.page.html',
   styleUrls: ['./add.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, IonItem, IonLabel, IonSelect, IonSelectOption, IonDatetime, IonButton, IonButtons, IonBackButton, IonRow, IonCol, RouterLinkActive, RouterLink, IonGrid, IonInput,]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonIcon, IonItem, IonLabel, IonDatetime, IonButton, IonButtons, IonRow, IonCol, RouterLink, IonGrid, IonInput, IonDatetimeButton, IonModal, IonPicker, IonPickerColumn, IonPickerColumnOption, ReactiveFormsModule,]
 })
-export class AddPage  {
+export class AddPage implements OnInit {
 
 
   mode: 'manual' | 'image' | 'voice' = 'manual';
@@ -45,33 +45,125 @@ export class AddPage  {
   recording = false;
   transcript = '';
 
-  //inyectar httpClient
+  currentValue = 'javascript';
+  formularioGasto!: FormGroup;
+  categorias: any[] = [];
+  categoriasRapidas: any[] = [];
+  idsRapidos: any[] = [46,47,50,51,53,78];
+  todas:boolean=false;
 
 
-  constructor() {
+  constructor(private formBuilder: FormBuilder,
+              private gastosService: GastosService) {
+  }
+
+  ngOnInit(): void {
+    this.crearFormulario();
+    this.obtenerCategorias();
+  }
+
+  obtenerCategorias() {
+    this.gastosService.getCategorias().subscribe({
+      next: (response) => {
+        this.categorias = response;
+
+        // filtrar categorias rapidas
+        this.categoriasRapidas = this.categorias.filter((categoria) => this.idsRapidos.includes(categoria.idCategoria));
+        console.log("Categorias rapidas: ",this.categoriasRapidas);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  seleccionarCategoria(categoria:any){
+    this.formularioGasto.patchValue({
+      idCategoria: categoria.idCategoria
+    })
+    console.log(this.formularioGasto.value);
+  }
+
+
+   crearFormulario() {
+    this.formularioGasto = this.formBuilder.group({
+      total: [0, Validators.required],
+      idCategoria: [null, Validators.required],
+      fechaGasto: [new Date().toISOString(), Validators.required],
+      descripcionGasto: [''],
+    })
   }
 
 
 
-  selectMode(m: 'manual'|'image'|'voice') {
-    this.mode = m;
+  guardarGasto() {
+    if (this.formularioGasto?.valid) {
+      const gasto = {
+        nombreComercio: 'Desconocido',
+        total: this.formularioGasto.value.total,
+        descripcionGasto: this.formularioGasto.value.descripcionGasto,
+        fechaGasto: this.formularioGasto.value.fechaGasto,
+        idUsuario: 0,
+        categoria:{
+          idCategoria: this.formularioGasto.value.idCategoria,
+        }
+      };
+
+      this.gastosService.saveGasto(gasto).subscribe({
+        next: (response) => {
+          console.log("Gasto guardado: ",response);
+          this.resetearFormulario();
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      })
+    }
   }
+
+  resetearFormulario() {
+    this.formularioGasto.reset();
+    this.cantidad = '';
+    this.todas = false;
+  }
+
+
+
+  onIonChange(event: CustomEvent) {
+    this.currentValue = event.detail.value;
+  }
+
+  onDidDismiss(event: CustomEvent) {
+    console.log('didDismiss', JSON.stringify(event.detail));
+  }
+
+
+
+  // selectMode(m: 'manual'|'image'|'voice') {
+  //   this.mode = m;
+  // }
 
   // Numpad
   onKey(k: string) {
     if (k === '.' && this.cantidad.includes('.')) return;
     if (k === '.' && this.cantidad === '') this.cantidad = '0.';
     else this.cantidad += k;
-    this.manual.amount = parseFloat(this.cantidad || '0') || 0;
+    this.formularioGasto.patchValue({ total: parseFloat(this.cantidad) || 0});
   }
+
+
+  backspace() {
+    this.cantidad = this.cantidad.slice(0, -1);
+    this.formularioGasto.patchValue({ total: parseFloat(this.cantidad) || 0});
+  }
+
+
+
   clear() {
     this.cantidad = '';
     this.manual.amount = 0;
   }
-  backspace() {
-    this.cantidad = this.cantidad.slice(0, -1);
-    this.manual.amount = parseFloat(this.cantidad || '0') || 0;
-  }
+
 
   useNow() {
     this.manual.date = new Date().toISOString();
