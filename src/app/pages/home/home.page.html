@@ -1,6 +1,6 @@
 
 
-<ion-content [fullscreen]="true" class="ion-padding">
+<ion-content *ngIf="gastos && presupuesto " [fullscreen]="true" class="ion-padding">
   <ion-grid>
 
     <!-- opciones -->
@@ -47,7 +47,7 @@
                 <ion-col>
                   <ul class="ion-text-center list-unstyled">
                     <li class="ion-text-center text-secondary fs-6">Total gastado</li>
-                    <li class="ion-text-center" style="font-size: 40px;">200€</li>
+                    <li class="ion-text-center" style="font-size: 40px;">{{totalGastos | number:'1.2-2'}} €</li>
                     <li class="ion-text-center text-secondary">+6.5% mes anterior</li>
                   </ul>
                 </ion-col>
@@ -77,8 +77,8 @@
                   <ion-col>
                     <ul class="ion-text-center list-unstyled">
                       <li class="ion-text-left text-secondary ">Presupuesto Restante</li>
-                      <li class="ion-text-left">200€</li>
-                      <li class="ion-text-left text-secondary ">De 500.00€</li>
+                      <li class="ion-text-left">{{ this.presupuestoRestante | number:'1.2-2'}} €</li>
+                      <li class="ion-text-left text-secondary ">De {{ this.presupuesto.montoTotal |number:'1.2-2'}} €</li>
                     </ul>
                   </ion-col>
                 </ion-row>
@@ -93,7 +93,7 @@
                   <ion-col>
                     <ul class="ion-text-center list-unstyled">
                       <li class="ion-text-left text-secondary ">Promedio diario</li>
-                      <li class="ion-text-left ">41.27€</li>
+                      <li class="ion-text-left ">{{ this.promedioDiario | number:'1.2-2'}} €</li>
                       <li class="ion-text-left text-secondary ">30 días</li>
                     </ul>
                   </ion-col>
@@ -106,8 +106,8 @@
                   <ion-col>
                     <ul class="ion-text-center list-unstyled">
                       <li class="ion-text-left text-secondary ">Transacciones</li>
-                      <li class="ion-text-left ">14</li>
-                      <li class="ion-text-left text-secondary ">3 categorias</li>
+                      <li class="ion-text-left ">{{ this.totalTransacciones }}</li>
+                      <li class="ion-text-left text-secondary ">{{ this.totalCatTransacciones }} categorias</li>
                     </ul>
                   </ion-col>
                 </ion-row>
@@ -157,30 +157,28 @@
 
 
 
-                    <li class="py-2">
-                      <div class="card-presupuesto">
+                    <li *ngFor="let pre of presupuesto.detallePresupuesto">
+                      <div  class="card-presupuesto my-2" style="height: 70px;">
                         <ion-row class="ion-align-items-center ion-justify-content-center">
 
-                          <ion-col size="auto">
-                            <ion-icon class="mx-4 " name="home"></ion-icon>
+                          <ion-col size="auto" class="mx-2">
+                            <ion-icon class="icono-gasto " name="{{ pre.categoria.icono }}" [style.color]="pre.categoria.colorHex"></ion-icon>
                           </ion-col>
 
-                          <ion-col class="ion-text-left " size="auto">
-                            <li>Comida</li>
-                            <li>200€</li>
+                          <ion-col size="auto" >
+                            <li class="ion-text-left">{{pre.categoria.nombre}}</li>
+                            <li class="ion-text-left text-secondary">{{pre.montoGastado | number:'1.2-2'}}€ de {{pre.montoAsignado | number:'1.2-2'}}€</li>
+                            <li class="ion-text-left my-2"><ion-progress-bar class="barra" [value]="((pre.montoGastado / pre.montoAsignado) *100) /100"   [style.--progress-background]="pre.categoria.colorHex" ></ion-progress-bar></li>
                           </ion-col>
 
-                          <ion-col class="mx-4 ">
-                            <li>BARRA DE %</li>
-                            <li> Quedan 200€</li>
+                          <ion-col>
+                            <li class="ion-text-center fs-6"><b>{{ pre.montoGastado}}€</b></li>
                           </ion-col>
 
                         </ion-row>
 
                       </div>
                     </li>
-
-                    <!-- lista de los demas presupuestos -->
                   </ul>
                 </ion-col>
               </ion-row>

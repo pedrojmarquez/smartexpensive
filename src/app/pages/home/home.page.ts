@@ -6,7 +6,7 @@ import {
   IonContent,
   IonGrid,
   IonHeader,
-  IonIcon,
+  IonIcon, IonProgressBar,
   IonRange,
   IonRow, IonSpinner,
   IonTitle,
@@ -23,7 +23,7 @@ import {GastosService} from "../../services/gastos-service";
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonContent, CommonModule, FormsModule, FooterComponent, IonIcon, IonGrid, IonRow, IonCol, IonSpinner]
+  imports: [IonContent, CommonModule, FormsModule, FooterComponent, IonIcon, IonGrid, IonRow, IonCol, IonSpinner, IonProgressBar]
 })
 export class HomePage implements OnInit {
 
@@ -31,6 +31,11 @@ export class HomePage implements OnInit {
   loading = true;
   gastos: any = [];
   presupuesto: any;
+  presupuestoRestante: any;
+  promedioDiario: any;
+  totalTransacciones: any;
+  totalCatTransacciones: any;
+  totalGastos: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,8 +58,7 @@ export class HomePage implements OnInit {
       //Cargar los gastos
       this.cargarGastos();
 
-      //Cargar presupuesto
-      this.cargarPresupuesto();
+
 
 
 
@@ -70,6 +74,8 @@ export class HomePage implements OnInit {
       next: (response) => {
         this.gastos = response;
         console.log('Gastos cargados:', this.gastos);
+        //Cargar presupuesto
+        this.cargarPresupuesto();
       },
       error: (error) => {
         console.log('Error al cargar los gastos:', error);
@@ -82,11 +88,46 @@ export class HomePage implements OnInit {
       next: (response) => {
         this.presupuesto = response;
         console.log('Presupuesto cargado:', this.presupuesto);
+        this.calcularDatos();
+        console.log('Datos calculados:', this.totalGastos, this.presupuestoRestante, this.promedioDiario, this.totalTransacciones, this.totalCatTransacciones);
       },
       error: (error) => {
         console.log('Error al cargar el presupuesto:', error);
       }
     });
+  }
+
+  calcularDatos() {
+
+    //calcular total de gastos
+    this.totalGastos = this.gastos.reduce((acc:any, g:any) => acc + g.total, 0);
+
+    //calcular presupuesto restante
+    this.presupuestoRestante = this.presupuesto.montoTotal;
+    for (let detalle of this.presupuesto.detallePresupuesto) {
+      this.presupuestoRestante -= detalle.montoGastado;
+    }
+
+    //calcular promedio diario
+    if (!this.gastos || this.gastos.length === 0) this.promedioDiario = 0;
+
+    // 1. Sumar todos los gastos
+    const sumaTotal = this.gastos.reduce((acc:any, g:any) => acc + g.total, 0);
+
+    // 2. Obtener los días únicos en los que hubo gasto
+    const diasUnicos = new Set(this.gastos.map((g:any) => g.fechaGasto.split("T")[0])).size;
+
+    // 3. Calcular promedio
+    this.promedioDiario = diasUnicos > 0 ? (sumaTotal / diasUnicos) : 0;
+
+
+
+    //calcular total de transacciones
+    this.totalTransacciones = this.gastos.length;
+
+    //calcular total de transacciones por categoria
+    this.totalCatTransacciones = new Set(this.gastos.map((g:any) => g.categoria.idCategoria)).size;
+
   }
 
   async logout() {
