@@ -26,4 +26,8 @@ export class GastosService {
     return this.authService.get(this.ruta + '/api/gastos/categorias');
   }
 
+  getPresupuesto(): Observable<any> {
+    return this.authService.get(this.ruta + '/api/gastos/presupuesto');
+  }
+
 }

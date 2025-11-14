@@ -30,6 +30,7 @@ export class HomePage implements OnInit {
   user: any = null;
   loading = true;
   gastos: any = [];
+  presupuesto: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,21 +51,44 @@ export class HomePage implements OnInit {
       }
 
       //Cargar los gastos
-      this.gastosService.getGastos().subscribe({
-        next: (response) => {
-          this.gastos = response;
-          console.log('Gastos cargados:', this.gastos);
-        },
-        error: (error) => {
-          console.log('Error al cargar los gastos:', error);
-        }
-      });
+      this.cargarGastos();
+
+      //Cargar presupuesto
+      this.cargarPresupuesto();
+
+
+
 
       this.loading = false;
     });
 
 
   }
+
+  cargarGastos() {
+    this.gastosService.getGastos().subscribe({
+      next: (response) => {
+        this.gastos = response;
+        console.log('Gastos cargados:', this.gastos);
+      },
+      error: (error) => {
+        console.log('Error al cargar los gastos:', error);
+      }
+    });
+  }
+
+  cargarPresupuesto() {
+    this.gastosService.getPresupuesto().subscribe({
+      next: (response) => {
+        this.presupuesto = response;
+        console.log('Presupuesto cargado:', this.presupuesto);
+      },
+      error: (error) => {
+        console.log('Error al cargar el presupuesto:', error);
+      }
+    });
+  }
+
   async logout() {
     await this.authService.clearSession();
     this.user = null;
