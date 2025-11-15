@@ -1,10 +1,58 @@
-<ion-content class="ion-padding ion-text-center">
-  <h1>Bienvenido a SmartExpensive</h1>
-  <p>Inicia sesión para empezar a registrar tus gastos</p>
+<ion-content class="login-background">
 
-  <ion-button expand="block" color="primary" (click)="loginWithGoogle()">
-    <ion-icon slot="start" name="logo-google"></ion-icon>
-    Iniciar sesión con Google
-  </ion-button>
+  <div class="login-wrapper">
+
+    <div class="login-card">
+
+      <!-- Animación Lottie -->
+      <ng-lottie
+        class="login-animation"
+        [options]="lottieOptions">
+      </ng-lottie>
+
+      <h1 class="title">SmartExpensive</h1>
+      <p class="subtitle">Controla tus gastos de forma inteligente</p>
+
+      <form [formGroup]="formLogin" (ngSubmit)="login()">
+
+        <!-- Email -->
+        <ion-item class="input-item">
+          <ion-input
+            label="Email"
+            label-placement="floating"
+            type="email"
+            formControlName="email">
+          </ion-input>
+        </ion-item>
+
+        <!-- Password -->
+        <ion-item class="input-item">
+          <ion-input
+            label="Contraseña"
+            label-placement="floating"
+            type="password"
+            formControlName="password">
+          </ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="main-button" type="submit">
+          Iniciar sesión
+        </ion-button>
+      </form>
+
+      <div class="divider"><span>o continúa con</span></div>
+
+      <ion-button expand="block" class="google-button" (click)="loginWithGoogle()">
+        <ion-icon slot="start" name="logo-google"></ion-icon>
+        Google
+      </ion-button>
+
+      <p class="register-text">
+        ¿No tienes cuenta?
+        <span (click)="goToRegister()">Regístrate</span>
+      </p>
+
+    </div>
+  </div>
+
 </ion-content>
-

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -48,33 +48,30 @@ export class HomePage implements OnInit {
     // 1️⃣ Capturar el token de la URL si existe
     this.route.queryParams.subscribe(async params => {
       const token = params['token'];
+      console.log(token);
       if (token) {
         console.log('Token recibido:', token);
         await this.authService.setSession(token); // Guardar JWT
         // Opcional: limpiar el token de la URL
         window.history.replaceState({}, document.title, window.location.pathname);
+        this.cargarGastos();
       }
-
-      //Cargar los gastos
-      this.cargarGastos();
-
-
-
-
-
+      const tokenGuardado = await this.authService.getSession();
+      if(tokenGuardado){
+        this.cargarGastos();
+      }
 
       this.loading = false;
     });
-
-
   }
+
 
   cargarGastos() {
     this.gastosService.getGastos().subscribe({
       next: (response) => {
         this.gastos = response;
         console.log('Gastos cargados:', this.gastos);
-        //Cargar presupuesto
+        // Cargar presupuesto
         this.cargarPresupuesto();
       },
       error: (error) => {
@@ -86,10 +83,12 @@ export class HomePage implements OnInit {
   cargarPresupuesto() {
     this.gastosService.getPresupuesto().subscribe({
       next: (response) => {
-        this.presupuesto = response;
-        console.log('Presupuesto cargado:', this.presupuesto);
-        this.calcularDatos();
-        console.log('Datos calculados:', this.totalGastos, this.presupuestoRestante, this.promedioDiario, this.totalTransacciones, this.totalCatTransacciones);
+        if(response != null){
+          this.presupuesto = response;
+          console.log('Presupuesto cargado:', this.presupuesto);
+          this.calcularDatos();
+          console.log('Datos calculados:', this.totalGastos, this.presupuestoRestante, this.promedioDiario, this.totalTransacciones, this.totalCatTransacciones);
+        }
       },
       error: (error) => {
         console.log('Error al cargar el presupuesto:', error);

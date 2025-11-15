@@ -1,0 +1,136 @@
+.login-background {
+  --background: #F6FFFA; // Verde ultra suave
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-card {
+  width: 90%;
+  max-width: 380px;
+  background: white;
+  padding: 28px;
+  border-radius: 22px;
+
+  // ⭐ Sombra mucho más bonita y suave tipo neumorfismo
+  box-shadow:
+    0 8px 16px rgba(0,0,0,0.06),
+    0 12px 32px rgba(0,0,0,0.05),
+    0 4px 8px rgba(175,243,190,0.25);
+
+  text-align: center;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.title {
+  font-size: 1.9rem;
+  color: #4CB97A;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+/* ⭐ INPUTS BONITOS TIPO iOS */
+.input-item {
+  --background: white;
+  --highlight-color-focused: #6ED89C;
+  border-radius: 14px;
+
+  border: 1px solid #e4e4e4;
+
+  padding: 6px 10px;
+
+  margin-bottom: 18px;
+
+  box-shadow:
+    inset 0 1px 4px rgba(0,0,0,0.06),
+    0 3px 8px rgba(175,243,190,0.15);
+
+  ion-label {
+    font-weight: 600;
+    color: #4CB97A;
+  }
+}
+
+/* ⭐ BOTÓN PRINCIPAL MÁS PREMIUM */
+.main-button {
+  --background: #6ED89C;
+  --background-hover: #5bc688;
+  --background-activated: #4eb77b;
+  --border-radius: 16px;
+
+  height: 48px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  box-shadow: 0 6px 16px rgba(110,216,156,0.45);
+}
+
+/* ⭐ GOOGLE BUTTON MÁS LIMPIO */
+.google-button {
+  --background: #ffffff;
+  --border-color: #dcdcdc;
+  --border-width: 1px;
+  --border-radius: 16px;
+
+  color: #444;
+  font-weight: 600;
+
+  height: 48px;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+
+  ion-icon {
+    color: #DB4437; // rojo típico Google
+    font-size: 20px;
+  }
+}
+
+/* ⭐ Separador más fino */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 20px 0;
+
+  span {
+    flex-grow: 1;
+    color: #777;
+    font-size: 0.85rem;
+    position: relative;
+  }
+
+  span::before,
+  span::after {
+    content: "";
+    flex-grow: 1;
+    height: 1px;
+    background: #e5e5e5;
+    margin: 0 12px;
+  }
+}
+
+.register-text {
+  margin-top: 20px;
+  font-size: 0.9rem;
+  color: #666;
+
+  span {
+    color: #4CB97A;
+    font-weight: 700;
+    cursor: pointer;
+  }
+}

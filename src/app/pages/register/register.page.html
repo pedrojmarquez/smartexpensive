@@ -1,0 +1,45 @@
+<ion-content class="login-background">
+
+  <div class="login-wrapper">
+    <div class="login-card">
+
+      <h1 class="title">Crear cuenta</h1>
+      <p class="subtitle">Empieza a gestionar tus gastos</p>
+
+      <form [formGroup]="formRegister" (ngSubmit)="register()">
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Nombre</ion-label>
+          <ion-input type="text" formControlName="nombre"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Correo electrónico</ion-label>
+          <ion-input type="email" formControlName="email"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Contraseña</ion-label>
+          <ion-input type="password" formControlName="password"></ion-input>
+        </ion-item>
+
+        <ion-item class="input-item">
+          <ion-label position="stacked">Repetir contraseña</ion-label>
+          <ion-input type="password" formControlName="repeatPassword"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" class="main-button" type="submit">
+          Crear cuenta
+        </ion-button>
+
+      </form>
+
+      <p class="register-text">
+        ¿Ya tienes cuenta?
+        <span (click)="goToLogin()">Inicia sesión</span>
+      </p>
+
+    </div>
+  </div>
+
+</ion-content>

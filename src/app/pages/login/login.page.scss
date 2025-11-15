@@ -1,0 +1,142 @@
+.login-background {
+  --background: #F3FFF8;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-card {
+  width: 90%;
+  max-width: 380px;
+  background: #ffffff;
+  padding: 30px 25px;
+  border-radius: 28px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(76, 185, 122, 0.15);
+
+  text-align: center;
+  animation: fadeIn 0.5s ease forwards;
+  opacity: 0;
+}
+
+.login-animation {
+  width: 170px;
+  margin: 0 auto 10px auto;
+}
+
+.title {
+  font-size: 1.9rem;
+  color: #4CB97A;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #7a7a7a;
+  margin-bottom: 25px;
+}
+
+/* Inputs modernos flotantes */
+.input-item {
+  --background: #F8FFFA;
+  --highlight-height: 2px;
+  --highlight-color-focused: #4CB97A;
+
+  border: 1px solid #e4e4e4;
+  border-radius: 14px;
+  margin-bottom: 18px;
+
+  transition: 0.25s ease;
+  box-shadow: inset 0 0 8px rgba(76, 185, 122, 0.10);
+}
+
+/* Glow cuando se enfoca */
+.input-item.ion-focused {
+  border-color: #4CB97A;
+  box-shadow:
+    inset 0 0 10px rgba(76, 185, 122, 0.18),
+    0 0 6px rgba(76, 185, 122, 0.25);
+  transform: scale(1.01);
+}
+
+/* Botón principal 3D */
+.main-button {
+  --background: linear-gradient(135deg, #4CB97A, #6ED89C);
+  --border-radius: 18px;
+  font-weight: 600;
+  margin-top: 10px;
+
+  box-shadow: 0 5px 15px rgba(76, 185, 122, 0.35);
+  transition: 0.2s ease;
+}
+
+.main-button:hover {
+  transform: translateY(-2px);
+}
+
+.main-button:active {
+  transform: translateY(1px);
+}
+
+/* Google button */
+.google-button {
+  --background: white;
+  --border-color: #dcdcdc;
+  --border-width: 1px;
+  --border-radius: 16px;
+  color: #444;
+  font-weight: 600;
+
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  transition: 0.2s ease;
+}
+
+.google-button:hover {
+  transform: translateY(-2px);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.divider span {
+  flex-grow: 1;
+  color: #777;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.divider span::before,
+.divider span::after {
+  content: "";
+  height: 1px;
+  flex-grow: 1;
+  background: #cfcfcf;
+  margin: 0 10px;
+}
+
+.register-text {
+  margin-top: 18px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.register-text span {
+  color: #4CB97A;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Animación card */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}

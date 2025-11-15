@@ -29,7 +29,7 @@ export class AuthService {
     await this.ensureReady();
     await this._storage?.set(this.SESSION_KEY, token);
     this.token = token;
-    console.log('✅ Token guardado correctamente en Storage');
+    console.log('✅ Token guardado correctamente en Storage',token);
   }
 
   async getSession() {
@@ -53,6 +53,9 @@ export class AuthService {
       Authorization: `Bearer ${this.token}`
     };
     this.headers = new HttpHeaders(headerJson);
+  }
+  getToken(){
+    return this.token;
   }
 
   get(url:any){

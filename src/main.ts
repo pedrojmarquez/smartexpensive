@@ -9,6 +9,9 @@ import {HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptors
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { Drivers } from '@ionic/storage';
 import { importProvidersFrom } from '@angular/core';
+import {provideLottieOptions} from "ngx-lottie";
+import player from 'lottie-web';
+
 
 
 
@@ -30,5 +33,11 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withInterceptorsFromDi()),
     // 👇 Registramos tu interceptor clásico
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+
+
+    provideRouter(routes),
+    provideLottieOptions({
+      player: () => player
+    })
   ],
 });
